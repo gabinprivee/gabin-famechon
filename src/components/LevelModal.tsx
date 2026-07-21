@@ -193,13 +193,13 @@ export default function LevelModal({ level, isCompleted, onClose, onComplete, ha
                             window.ctx.fillText('MOTEUR DE RENDU ACTIF', 20, 40);
                             window.ctx.fillStyle = '#64748b';
                             window.ctx.font = '14px monospace';
-                            window.ctx.fillText('Niveau ${level.id} - ${level.title.replace(/`/g, "'")}', 20, 65);
+                            window.ctx.fillText('Niveau ' + ${level.id} + ' - ' + decodeURIComponent('${encodeURIComponent(level.title)}'), 20, 65);
                             
                             window.ctx.save();
                             window.ctx.translate(window.canvas.width/2, window.canvas.height/2);
                             
                             // Visual based on category
-                            const cat = '${level.title.toLowerCase()}';
+                            const cat = decodeURIComponent('${encodeURIComponent(level.title.toLowerCase())}');
                             if (cat.includes('fps')) {
                                window.ctx.rotate(frame * 0.02);
                                window.ctx.fillStyle = '#ef4444'; 
