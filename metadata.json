@@ -1,0 +1,6 @@
+{
+  "name": "Game Dev Quest",
+  "description": "Apprends à coder des jeux vidéo avec 200 niveaux de défis interactifs, répartis en 4 spécialités (FPS, Tycoon, Précision, Stratégie).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
