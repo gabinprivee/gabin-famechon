@@ -15,14 +15,16 @@ import { motion, AnimatePresence } from 'motion/react';
 
 export default function App() {
   const [progress, setProgress] = useState<UserProgress>(() => {
-    const saved = localStorage.getItem('gameDevProgress');
-    if (saved) {
+    try {
+      const saved = localStorage.getItem('gameDevProgress');
+      if (saved) {
       const parsed = JSON.parse(saved);
       if (!parsed.levels) {
         return { levels: parsed, achievements: [], dailyStreak: 0 };
       }
       return parsed;
-    }
+      }
+    } catch (e) { console.error(e); }
     return { levels: { fps: [], tycoon: [], precision: [], strategy: [], daily: [] }, achievements: [], dailyStreak: 0 };
   });
   const [currentCategory, setCurrentCategory] = useState<CategoryId | 'home'>('home');
@@ -30,10 +32,10 @@ export default function App() {
   const [aiMessage, setAiMessage] = useState("Salut ! Je suis ton mentor IA personnel. Je vais t'accompagner dans ta quête pour devenir développeur de jeux vidéo. Choisis une catégorie pour commencer !");
 
   useEffect(() => {
-    localStorage.setItem('gameDevProgress', JSON.stringify(progress));
+    try { localStorage.setItem('gameDevProgress', JSON.stringify(progress)); } catch (e) { console.error(e); }
     
     // AI Logic based on overall progress
-    const totalCompleted = Object.values(progress.levels || {}).flat().length;
+    const totalCompleted = Object.values(progress.levels || {}).flatMap((val: any) => val || []).length;
     if (totalCompleted === 1) setAiMessage("Excellent ! Tu as validé ton tout premier niveau. Les bases sont essentielles.");
     else if (totalCompleted === 10) setAiMessage("Déjà 10 niveaux complétés ! Tu commences à avoir de bons réflexes de programmeur.");
     else if (totalCompleted === 100) setAiMessage("100 niveaux ! Tu as validé l'équivalent d'une catégorie entière. Continue comme ça !");
@@ -52,7 +54,7 @@ export default function App() {
         };
         
         const newAchievements = [...(prev.achievements || [])];
-        const totalCompleted = Object.values(newLevels).flat().length;
+        const totalCompleted = Object.values(newLevels).flatMap((val: any) => val || []).length;
 
         if (totalCompleted >= 1 && !newAchievements.includes('first_blood')) newAchievements.push('first_blood');
         if (totalCompleted >= 10 && !newAchievements.includes('apprentice')) newAchievements.push('apprentice');
@@ -103,7 +105,7 @@ export default function App() {
   const activeCategory = currentCategory !== 'home' ? categories.find(c => c.id === currentCategory) : null;
   const activeLevel = activeCategory && selectedLevelId ? activeCategory.levels.find(l => l.id === selectedLevelId) : null;
 
-  const totalProgress = Object.values(progress.levels || {}).flat().length;
+  const totalProgress = Object.values(progress.levels || {}).flatMap((val: any) => val || []).length;
 
   return (
     <div className="flex h-screen overflow-hidden font-sans text-[#E0E6ED]" style={{ background: 'radial-gradient(circle at top right, #1A1F2C 0%, #05070A 100%)' }}>
