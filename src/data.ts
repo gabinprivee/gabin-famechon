@@ -23,14 +23,14 @@ const generateLevels = (categoryId: string, themes: string[], bossTask: string, 
       title = `Niveau ${i} : [THÉORIE 2/2] - Action de '${theme}'`;
       description = `Maintenant, comment faire vivre ton jeu ? Il faut modifier tes variables ! Par exemple, pour qu'un personnage avance, on change sa position.\n\nExemple :\nposition = position + 5;`;
       task = `Tutoriel (Fin) : Recopie le code ci-dessous pour modifier la valeur d'une variable.`;
-      testCode = `if (!code.includes('=')) throw new Error('Tutoriel non validé : Modifie la valeur d\\'une variable (utilise =).');`;
+      testCode = `if (!code.includes('=')) throw new Error("Tutoriel non validé : Modifie la valeur d'une variable (utilise =).");`;
       codeSnippet = `// ----------------------------------------\n// THÉORIE 2 : Logique pour ${theme}\n// ----------------------------------------\n// Copie ce code :\nposition = position + 5;\n\n`;
     } else {
       const challenges = [
         { title: "Mise en place", desc: "Le tutoriel est terminé. À toi de jouer ! Mets en place la structure principale de ton système.", task: "Crée la fonction d'initialisation et les variables globales associées.", test: "if (code.trim().length < 20) throw new Error('Code trop court. Fais un vrai effort de code.');" },
-        { title: "Mouvement & Maths", desc: "Nous avons besoin de dynamisme. Applique des transformations ou de l'arithmétique.", task: "Modifie les valeurs avec des opérateurs mathématiques (+, -, *, /) pour créer de l'action.", test: "if (!code.match(/[+\\-*\\/]=/) && !code.match(/[\\w]+[\\+\\-*\\/][\\w\\d]+/)) throw new Error('Utilise des opérateurs mathématiques (+, -, *, /, +=, etc.) pour simuler le comportement.');" },
-        { title: "Interactions critiques", desc: "Le jeu doit répondre au joueur ou à l'environnement.", task: "Gère les conditions limites ou les entrées extrêmes (collisions, bordures, out-of-bounds).", test: "if (!code.match(/if\\s*\\(/)) throw new Error('Utilise des conditions strictes (if) pour gérer ces interactions.');" },
-        { title: "Refactoring", desc: "Le code commence à être lourd. Rend-le plus propre.", task: "Réfractore ton code. Encapsule ta logique répétitive dans une fonction dédiée.", test: "if (!code.match(/function\\s+[a-zA-Z_]+\\s*\\(/) && !code.match(/[a-zA-Z_]+\\s*=\\s*\\(/) && !code.match(/[a-zA-Z_]+\\s*=\\s*\\w*\\s*=>/)) throw new Error('Crée au moins une fonction nommée pour encapsuler ton code.');" },
+        { title: "Mouvement & Maths", desc: "Nous avons besoin de dynamisme. Applique des transformations ou de l'arithmétique.", task: "Modifie les valeurs avec des opérateurs mathématiques (+, -, *, /) pour créer de l'action.", test: "if (!code.includes('+') && !code.includes('-') && !code.includes('*') && !code.includes('/')) throw new Error('Utilise des opérateurs mathématiques (+, -, *, /, +=, etc.) pour simuler le comportement.');" },
+        { title: "Interactions critiques", desc: "Le jeu doit répondre au joueur ou à l'environnement.", task: "Gère les conditions limites ou les entrées extrêmes (collisions, bordures, out-of-bounds).", test: "if (!code.includes('if')) throw new Error('Utilise des conditions strictes (if) pour gérer ces interactions.');" },
+        { title: "Refactoring", desc: "Le code commence à être lourd. Rend-le plus propre.", task: "Réfractore ton code. Encapsule ta logique répétitive dans une fonction dédiée.", test: "if (!code.includes('function') && !code.includes('=>')) throw new Error('Crée au moins une fonction nommée pour encapsuler ton code.');" },
         { title: "Rendu & Boucle", desc: "Affiche le résultat de tes calculs de manière fluide.", task: "Utilise le contexte du canvas pour dessiner le résultat ou initie une boucle de rafraîchissement.", test: "if (!code.includes('requestAnimationFrame') && !code.includes('fillRect') && !code.includes('arc') && !code.includes('fillText')) throw new Error('Dessine sur le canvas (fillRect, etc) ou utilise requestAnimationFrame.');" }
       ];
 
@@ -125,7 +125,7 @@ export const categories: Category[] = [
         description: "Crée un effet d'explosion de particules en 2D.",
         task: "Génère 50 particules avec des vélocités aléatoires et applique-leur une gravité.",
         codeSnippet: `function spawnParticles(x, y) {\n  \n}`,
-        testCode: `if (!code.includes('for') && !code.includes('Math.random')) throw new Error('Utilise une boucle et de l\\'aléatoire.');`
+        testCode: `if (!code.includes('for') && !code.includes('Math.random')) throw new Error("Utilise une boucle et de l'aléatoire.");`
       },
       {
         id: 2,
@@ -141,7 +141,7 @@ export const categories: Category[] = [
         description: "Programme une IA simple qui patrouille.",
         task: "L'ennemi doit avancer jusqu'à un mur, puis faire demi-tour automatiquement.",
         codeSnippet: `function updateEnemy(enemy) {\n  \n}`,
-        testCode: `if (!code.match(/if\\s*\\(/) && !code.match(/=\\s*-/)) throw new Error('Inverse la vitesse si l\\'ennemi touche un mur.');`
+        testCode: `if (!code.includes('if')) throw new Error("Inverse la vitesse si l'ennemi touche un mur.");`
       },
       {
         id: 4,
@@ -149,7 +149,7 @@ export const categories: Category[] = [
         description: "Ajoute un effet de parallaxe avec 3 calques de fond.",
         task: "Déplace les 3 calques à des vitesses différentes en fonction de la position du joueur pour créer une illusion de profondeur.",
         codeSnippet: `function updateParallax(playerX) {\n  \n}`,
-        testCode: `if (!code.match(/\\*/)) throw new Error('Multiplie la position par un ratio pour la parallaxe.');`
+        testCode: `if (!code.includes('*')) throw new Error('Multiplie la position par un ratio pour la parallaxe.');`
       },
       {
         id: 5,
