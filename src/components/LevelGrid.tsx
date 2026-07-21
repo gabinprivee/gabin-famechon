@@ -27,6 +27,21 @@ export default function LevelGrid({ category, progress, onSelectLevel }: LevelGr
           const isUnlocked = category.id === 'daily' ? true : (level.id === 1 || completed.includes(level.id - 1));
           const isBoss = level.id === category.levels.length && category.id !== 'daily';
           
+          let diffLabel = '';
+          let badgeStyles = '';
+          
+          const ratio = level.id / category.levels.length;
+          if (ratio <= 0.33) {
+            diffLabel = 'Facile';
+            badgeStyles = isCompleted ? 'bg-black/20 text-white border-white/30' : 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
+          } else if (ratio <= 0.66) {
+            diffLabel = 'Moyen';
+            badgeStyles = isCompleted ? 'bg-black/20 text-white border-white/30' : 'bg-amber-500/20 text-amber-400 border-amber-500/30';
+          } else {
+            diffLabel = 'Difficile';
+            badgeStyles = isCompleted ? 'bg-black/20 text-white border-white/30' : 'bg-red-500/20 text-red-400 border-red-500/30';
+          }
+
           return (
             <motion.button
               initial={{ opacity: 0, scale: 0.9 }}
@@ -44,7 +59,12 @@ export default function LevelGrid({ category, progress, onSelectLevel }: LevelGr
                 ${isBoss && isCompleted ? 'bg-amber-500 text-white border-2 border-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.5)] hover:bg-amber-400 hover:-translate-y-1 cursor-pointer' : ''}
               `}
             >
-              <span className={`text-xl font-bold tracking-tight`}>{level.id}</span>
+              <div className="absolute top-2 left-2 right-2 flex justify-center">
+                 <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded border uppercase tracking-wider ${badgeStyles} ${!isUnlocked ? 'opacity-40' : ''}`}>
+                   {diffLabel}
+                 </span>
+              </div>
+              <span className={`text-xl font-bold tracking-tight mt-3`}>{level.id}</span>
               
               <div className="mt-2">
                 {!isUnlocked && <Lock size={16} />}
