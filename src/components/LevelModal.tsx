@@ -47,7 +47,8 @@ export default function LevelModal({ level, isCompleted, onClose, onComplete, ha
         onComplete();
       } catch (e: any) {
         setSuccess(false);
-        setErrorMsg(e.message || "Erreur inconnue");
+        const errMsg = e && typeof e.message === 'string' ? e.message : String(e);
+        setErrorMsg(errMsg || "Erreur de syntaxe dans le code");
       }
     }, 1500);
   };

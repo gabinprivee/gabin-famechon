@@ -8,7 +8,8 @@ interface AIGuideProps {
 
 export default function AIGuide({ message }: AIGuideProps) {
   const [isOpen, setIsOpen] = useState(true);
-  const [displayedMessage, setDisplayedMessage] = useState(message);
+  const safeMessage = message || "";
+  const [displayedMessage, setDisplayedMessage] = useState(safeMessage);
   const [isTyping, setIsTyping] = useState(false);
 
   useEffect(() => {
@@ -17,16 +18,16 @@ export default function AIGuide({ message }: AIGuideProps) {
     setDisplayedMessage("");
     let i = 0;
     const interval = setInterval(() => {
-      setDisplayedMessage(message.slice(0, i));
+      setDisplayedMessage(safeMessage.slice(0, i));
       i++;
-      if (i > message.length) {
+      if (i > safeMessage.length) {
         clearInterval(interval);
         setIsTyping(false);
       }
     }, 20); // Fast typing speed
     
     return () => clearInterval(interval);
-  }, [message]);
+  }, [safeMessage]);
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex items-end gap-4">
